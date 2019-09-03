@@ -1,0 +1,64 @@
+#!/usr/bin/env node
+'use strict';
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var getRecommendVersions = _interopDefault(require('nodejs-recommended-versions'));
+var meow = _interopDefault(require('meow'));
+var updateNotifier = _interopDefault(require('update-notifier'));
+var execa = _interopDefault(require('execa'));
+var ora = _interopDefault(require('ora'));
+
+const cli = meow(
+  `
+  Usage
+    $ update-nodes
+  `,
+  {
+    flags: {
+      help: {
+        alias: 'h',
+      },
+      version: {
+        alias: 'v',
+      },
+    },
+  }
+);
+
+function update() {
+  updateNotifier({pkg: require('../package.json')}).notify();
+}
+
+async function getInstalledVersions() {
+  const {stdout} = await execa('nvm', ['list']);
+
+  return stdout.match(/\d+\.\d+\.\d+/g, stdout)
+}
+
+async function installNode(version) {
+  const spinner = ora(`Installing Node.js v${version}`);
+
+  spinner.start();
+  await execa('nvm', ['install', version]).stdout.pipe(process.stdout);
+  await new Promise(resolve => setTimeout(resolve, 10000));
+  spinner.stop();
+}
+
+async function main(cli) {
+  const installed = await getInstalledVersions();
+  const recommend = await getRecommendVersions();
+  const willInstall = recommend.filter(version => installed.includes(version));
+
+  console.log(`Will Install Node.js versions:
+
+${willInstall.join('\n')}
+  `);
+
+  for (const version of willInstall) {
+    await installNode(version);
+  }
+}
+
+update();
+main();
