@@ -20,7 +20,7 @@ async function main(cli) {
   )
 
   if (notInstalled.length === 0) {
-    signale.success('All Recommend Node.js Versions are installed.')
+    signale.success('All Recommended Node.js Versions are installed.')
     return
   }
 
