@@ -15,6 +15,7 @@
     "update-nodes": "bin/cli"
   },
   "dependencies": {
+    "enquirer": "2.3.1",
     "execa": "2.0.4",
     "meow": "5.0.0",
     "nodejs-recommended-versions": "1.0.1",

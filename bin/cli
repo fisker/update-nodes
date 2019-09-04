@@ -4,10 +4,11 @@
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var getRecommendVersions = _interopDefault(require('nodejs-recommended-versions'));
+var enquirer = require('enquirer');
+var ora = _interopDefault(require('ora'));
 var meow = _interopDefault(require('meow'));
 var updateNotifier = _interopDefault(require('update-notifier'));
 var execa = _interopDefault(require('execa'));
-var ora = _interopDefault(require('ora'));
 
 const cli = meow(
   `
@@ -36,27 +37,37 @@ async function getInstalledVersions() {
   return stdout.match(/\d+\.\d+\.\d+/g, stdout)
 }
 
-async function installNode(version) {
-  const spinner = ora(`Installing Node.js v${version}`);
-
-  spinner.start();
-  await execa('nvm', ['install', version]).stdout.pipe(process.stdout);
-  await new Promise(resolve => setTimeout(resolve, 10000));
-  spinner.stop();
+function installNode(version) {
+  return execa('nvm', ['install', version]).stdout.pipe(process.stdout)
 }
 
 async function main(cli) {
   const installed = await getInstalledVersions();
   const recommend = await getRecommendVersions();
-  const willInstall = recommend.filter(version => installed.includes(version));
+  const notInstalled = recommend.filter(version => !installed.includes(version));
 
-  console.log(`Will Install Node.js versions:
+  if (notInstalled.length === 0) {
+    console.log('All Recommend Node.js Versions are installed.');
+    return
+  }
 
-${willInstall.join('\n')}
-  `);
+  const {selected} = await enquirer.prompt({
+    type: 'multiselect',
+    name: 'selected',
+    message: 'Select Node.js version(s) you want install:',
+    choices: notInstalled.map(version => ({
+      name: version,
+      message: `v${version}`,
+      selected: true,
+    })),
+    initial: notInstalled,
+  });
 
-  for (const version of willInstall) {
+  for (const version of selected) {
+    const spinner = ora(`Installing Node.js v${version}`);
+    spinner.start();
     await installNode(version);
+    spinner.stop();
   }
 }
 
