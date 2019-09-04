@@ -64,10 +64,8 @@ jobs:
 
       - name: Build Package
         run: yarn build
-
       # - name: Run Test
       #   run: yarn test-coverage
-
       # - name: Upload Coverage
       #   uses: coverallsapp/github-action@master
       #   with:
