@@ -33,6 +33,7 @@ async function main(cli) {
   for (const version of selected) {
     const spinner = ora(`Installing Node.js v${version}`)
     spinner.start()
+    // eslint-disable-next-line no-await-in-loop
     await installNode(version)
     spinner.stop()
   }
