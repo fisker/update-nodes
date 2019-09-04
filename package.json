@@ -30,6 +30,7 @@
     "@fisker/lint-staged-config": "1.0.5",
     "@fisker/prettier-config": "1.0.18",
     "cz-conventional-changelog": "3.0.2",
+    "del-cli": "2.0.0",
     "eslint": "6.3.0",
     "esm": "3.2.25",
     "husky": "3.0.5",
@@ -47,6 +48,7 @@
   "scripts": {
     "build": "run-p build:*",
     "build:js": "rollup --config",
+    "clean": "del bin",
     "dist": "run-p dist:*",
     "dist:npm": "np --yolo --no-yarn",
     "format": "run-p format:*",
@@ -56,7 +58,7 @@
     "lint:eslint": "eslint \"**/*.{js,mjs,vue}\"",
     "lint:markdown": "markdownlint \"**/*.md\" --ignore \"**/node_modules/**\"",
     "lint:prettier": "prettier \"**/*.{css,html,js,json,less,md,scss,ts,vue,yaml,yml}\" --check",
-    "release": "run-s lint build format test dist"
+    "release": "run-s lint build format dist"
   },
   "author": {
     "name": "fisker Cheung",

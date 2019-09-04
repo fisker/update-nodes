@@ -1,4 +1,4 @@
-import getRecommendVersions from 'nodejs-recommended-versions'
+import getRecommendedVersions from 'nodejs-recommended-versions'
 import {prompt} from 'enquirer'
 import ora from 'ora'
 import cli from './cli'
@@ -8,8 +8,10 @@ import installNode from './install-node'
 
 async function main(cli) {
   const installed = await getInstalledVersions()
-  const recommend = await getRecommendVersions()
-  const notInstalled = recommend.filter(version => !installed.includes(version))
+  const recommended = await getRecommendedVersions()
+  const notInstalled = recommended.filter(
+    version => !installed.includes(version)
+  )
 
   if (notInstalled.length === 0) {
     console.log('All Recommend Node.js Versions are installed.')
@@ -19,11 +21,11 @@ async function main(cli) {
   const {selected} = await prompt({
     type: 'multiselect',
     name: 'selected',
-    message: 'Select Node.js version(s) you want install:',
-    choices: notInstalled.map(version => ({
+    message: 'Select Node.js version(s) you want to install:',
+    choices: recommended.map(version => ({
       name: version,
       message: `v${version}`,
-      selected: true,
+      disabled: installed.includes(version) ? '(Installed)' : false,
     })),
     initial: notInstalled,
   })
