@@ -1,6 +1,8 @@
 import getRecommendedVersions from 'nodejs-recommended-versions'
 import {prompt} from 'enquirer'
 import ora from 'ora'
+import signale from 'signale'
+import Listr from 'listr'
 import cli from './cli'
 import update from './update'
 import getInstalledVersions from './installed'
@@ -8,20 +10,24 @@ import installNode from './install-node'
 
 async function main(cli) {
   const installed = await getInstalledVersions()
+
+  const spinner = ora('Fetching Recommended Node.js Versions')
+  spinner.start()
   const recommended = await getRecommendedVersions()
+  spinner.stop()
   const notInstalled = recommended.filter(
     version => !installed.includes(version)
   )
 
   if (notInstalled.length === 0) {
-    console.log('All Recommend Node.js Versions are installed.')
+    signale.success('All Recommend Node.js Versions are installed.')
     return
   }
 
   const {selected} = await prompt({
     type: 'multiselect',
     name: 'selected',
-    message: 'Select Node.js version(s) you want to install:',
+    message: 'Select Node.js version(s) you want install:',
     choices: recommended.map(version => ({
       name: version,
       message: `v${version}`,
@@ -30,13 +36,16 @@ async function main(cli) {
     initial: notInstalled,
   })
 
-  for (const version of selected) {
-    const spinner = ora(`Installing Node.js v${version}`)
-    spinner.start()
-    // eslint-disable-next-line no-await-in-loop
-    await installNode(version)
-    spinner.stop()
-  }
+  const tasks = new Listr(
+    selected.map(version => ({
+      title: `Install Node.js v${version}`,
+      task() {
+        return installNode(version).stdout
+      },
+    }))
+  )
+
+  await tasks.run()
 }
 
 update()
