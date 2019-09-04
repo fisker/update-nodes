@@ -1,7 +1,7 @@
 {
   "name": "update-nodes",
   "description": "Update Recommend Node.js Versions",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "publishConfig": {
