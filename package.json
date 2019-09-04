@@ -1,6 +1,6 @@
 {
   "name": "update-nodes",
-  "description": "Update Recommend Node.js Versions",
+  "description": "Update Recommended Node.js Versions",
   "version": "0.0.4",
   "main": "index.js",
   "license": "MIT",
