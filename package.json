@@ -30,7 +30,7 @@
     "@fisker/eslint-config": "1.2.18",
     "@fisker/husky-config": "1.1.2",
     "@fisker/lint-staged-config": "1.0.5",
-    "@fisker/prettier-config": "1.0.19",
+    "@fisker/prettier-config": "1.0.20",
     "cz-conventional-changelog": "3.0.2",
     "del-cli": "3.0.0",
     "eslint": "6.3.0",
