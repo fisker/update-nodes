@@ -12,9 +12,10 @@ async function main(cli) {
   const installed = await getInstalledVersions()
 
   const spinner = ora('Fetching Recommended Node.js Versions')
-  spinner.start()
+  // TODO: enable this, when fetch-node-website resolve this problem
+  // spinner.start()
   const recommended = await getRecommendedVersions()
-  spinner.stop()
+  // spinner.stop()
   const notInstalled = recommended.filter(
     version => !installed.includes(version)
   )
