@@ -11,11 +11,13 @@ import installNode from './install-node'
 async function main(cli) {
   const installed = await getInstalledVersions()
 
-  const spinner = ora('Fetching Recommended Node.js Versions')
-  // TODO: enable this, when fetch-node-website resolve this problem
-  // spinner.start()
+  const spinner = ora({
+    text: 'Fetching Recommended Node.js Versions',
+    discardStdin: false,
+  })
+  spinner.start()
   const recommended = await getRecommendedVersions()
-  // spinner.stop()
+  spinner.stop()
   const notInstalled = recommended.filter(
     version => !installed.includes(version)
   )
