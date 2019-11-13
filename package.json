@@ -21,7 +21,7 @@
     "listr": "0.14.3",
     "meow": "5.0.0",
     "nodejs-recommended-versions": "1.0.9",
-    "ora": "4.0.2",
+    "ora": "4.0.3",
     "signale": "1.4.0",
     "update-notifier": "3.0.1"
   },
