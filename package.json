@@ -2,7 +2,7 @@
   "name": "update-nodes",
   "description": "Update Recommended Node.js Versions",
   "version": "0.0.10",
-  "main": "index.js",
+  "main": "bin/cli",
   "license": "MIT",
   "repository": "fisker/update-nodes",
   "publishConfig": {
