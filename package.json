@@ -2,7 +2,7 @@
   "name": "update-nodes",
   "description": "Update Recommended Node.js Versions",
   "version": "0.0.11",
-  "main": "bin/cli",
+  "main": "dist/cli",
   "license": "MIT",
   "repository": "fisker/update-nodes",
   "publishConfig": {
@@ -10,10 +10,10 @@
     "access": "public"
   },
   "files": [
-    "bin"
+    "dist"
   ],
   "bin": {
-    "update-nodes": "bin/cli"
+    "update-nodes": "dist/cli"
   },
   "dependencies": {
     "enquirer": "2.3.2",
