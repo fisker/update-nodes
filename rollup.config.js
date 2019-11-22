@@ -1,7 +1,7 @@
 export default {
   input: 'src/index.js',
   output: {
-    file: 'bin/cli',
+    file: 'dist/cli',
     format: 'cjs',
     banner: '#!/usr/bin/env node',
   },
