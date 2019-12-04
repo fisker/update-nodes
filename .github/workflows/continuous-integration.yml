@@ -9,52 +9,58 @@ on:
   #   - cron: "0 23 * * 6"
 
 jobs:
-  # test:
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       PLATFORM:
-  #         - "ubuntu-latest"
-  #         # - "macos-latest"
-  #         # - "windows-latest"
-  #       NODE:
-  #         # - "13"
-  #         - "12"
-  #         # - "10"
-  #       # exclude:
-  #       #   - PLATFORM: "macos-latest"
-  #       #     NODE: "12"
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        PLATFORM:
+          # - "ubuntu-latest"
+          # - "macos-latest"
+          - "windows-latest"
+        NODE:
+          # - "13"
+          - "12"
+          # - "10"
+        # exclude:
+        #   - PLATFORM: "macos-latest"
+        #     NODE: "12"
 
-  #   name: Test on node ${{ matrix.NODE }} and ${{ matrix.PLATFORM }}
-  #   runs-on: ${{ matrix.PLATFORM }}
-  #   # needs: [build]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@master
+    name: Test on node ${{ matrix.NODE }} and ${{ matrix.PLATFORM }}
+    runs-on: ${{ matrix.PLATFORM }}
+    # needs: [build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
 
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@master
-  #       with:
-  #         node-version: ${{ matrix.NODE }}
+      - name: Setup Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.NODE }}
 
-  #     - name: Install Dependencies
-  #       run: yarn
+      # - name: Download nvm-windows
+      #   run: |
+      #     curl https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-setup.zip
+      #     winzip https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-setup.zip
+      #     ls
 
-  #     # - name: Download Artifact
-  #     #   uses: actions/download-artifact@master
-  #     #   with:
-  #     #     name: dist
-  #     #     path: dist
+      - name: Install Dependencies
+        run: yarn
 
-  #     - name: Run Test
-  #       run: yarn test-coverage
+      # - name: Download Artifact
+      #   uses: actions/download-artifact@master
+      #   with:
+      #     name: dist
+      #     path: dist
 
-  #     - name: Upload Coverage
-  #       uses: coverallsapp/github-action@master
-  #       if: success()
-  #       continue-on-error: true
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Test
+        run: yarn test-coverage
+
+      - name: Upload Coverage
+        uses: coverallsapp/github-action@master
+        if: success()
+        continue-on-error: true
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
     name: Lint
