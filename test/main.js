@@ -1,15 +1,9 @@
 import test from 'ava'
 import execa from 'execa'
-import path from 'path'
 import {version, description} from '../package.json'
 
 const runCLI = cliArguments =>
-  execa('node', [
-    '-r',
-    'esm',
-    path.join(__dirname, '../src/index.js'),
-    ...cliArguments,
-  ])
+  execa('node', ['-r', 'esm', 'src/index.js', ...cliArguments])
 
 test('--version', async t => {
   const {stdout} = await runCLI(['--version'])
