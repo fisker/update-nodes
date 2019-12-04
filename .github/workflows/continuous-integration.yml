@@ -47,24 +47,23 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      - name: Run test d
-        run: node -r esm src/index.js --version
-
-      # - name: Download Artifact
-      #   uses: actions/download-artifact@master
-      #   with:
-      #     name: dist
-      #     path: dist
-
-      - name: Run Test
-        run: yarn test-coverage
-
-      - name: Upload Coverage
-        uses: coverallsapp/github-action@master
-        if: success()
-        continue-on-error: true
+      - name: Download Artifact
+        uses: actions/download-artifact@master
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: dist
+          path: dist
+
+      - name: Run test
+        run: node dist/cli --version
+
+      # - name: Run Test
+      #   run: yarn test-coverage
+      # - name: Upload Coverage
+      #   uses: coverallsapp/github-action@master
+      #   if: success()
+      #   continue-on-error: true
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
     name: Lint
