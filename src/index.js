@@ -61,12 +61,12 @@ async function main(cli) {
 
           if (message) {
             task.skip(message)
-          }
 
-          errors.push({
-            version,
-            error: new Error(`Installing Node.js v${version}\n${stdout}`),
-          })
+            errors.push({
+              version,
+              error: new Error(`Installing Node.js v${version}\n${stdout}`),
+            })
+          }
         })
         return subprocess.stdout
       },
