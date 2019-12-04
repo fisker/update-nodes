@@ -23,6 +23,8 @@ async function main(cli) {
   )
 
   if (notInstalled.length === 0) {
+    console.log(recommended.map(version => `v${version}`).join('\n'))
+    console.log()
     signale.success('All Recommended Node.js Versions are installed.')
     return
   }
@@ -39,16 +41,47 @@ async function main(cli) {
     initial: notInstalled,
   })
 
+  const errors = []
   const tasks = new Listr(
     selected.map(version => ({
       title: `Install Node.js v${version}`,
-      task() {
-        return installNode(version).stdout
+      task(context, task) {
+        const subprocess = installNode(version)
+        subprocess.then(({stdout}) => {
+          let message
+          // Download npm error
+          if (/Download failed/.test(stdout)) {
+            message = `An error occurred while installing ${version}.`
+          }
+
+          // Download Node.js
+          if (/is not yet released or available/.test(stdout)) {
+            message = stdout
+          }
+
+          if (message) {
+            task.skip(message)
+          }
+
+          errors.push({
+            version,
+            error: new Error(`Installing Node.js v${version}\n${stdout}`),
+          })
+        })
+        return subprocess.stdout
       },
-    }))
+    })),
+    {
+      exitOnError: false,
+    }
   )
 
   await tasks.run()
+
+  for (const {version, error} of errors) {
+    console.log()
+    signale.fatal(error)
+  }
 }
 
 update()
