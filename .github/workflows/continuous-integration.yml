@@ -37,11 +37,12 @@ jobs:
         with:
           node-version: ${{ matrix.NODE }}
 
-      # - name: Download nvm-windows
+      # - name: Install nvm-windows
       #   run: |
-      #     curl https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-setup.zip
-      #     winzip https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-setup.zip
-      #     ls
+      #     npx node-wget https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-setup.zip
+      #     npx extract-zip nvm-setup.zip
+      #     nvm-setup.exe /silent
+      #     nvm version
 
       - name: Install Dependencies
         run: yarn
