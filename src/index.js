@@ -45,9 +45,8 @@ async function main(cli) {
   const tasks = new Listr(
     selected.map(version => ({
       title: `Install Node.js v${version}`,
-      task(context, task) {
-        const subprocess = installNode(version)
-        subprocess.then(({stdout}) => {
+      task() {
+        return installNode(version).then(({stdout}) => {
           let message
           // Download npm error
           if (/Download failed/.test(stdout)) {
@@ -60,15 +59,16 @@ async function main(cli) {
           }
 
           if (message) {
-            task.skip(message)
-
             errors.push({
               version,
               error: new Error(`Installing Node.js v${version}\n${stdout}`),
             })
+
+            throw new Error(message)
           }
+
+          return stdout
         })
-        return subprocess.stdout
       },
     })),
     {
@@ -76,7 +76,9 @@ async function main(cli) {
     }
   )
 
-  await tasks.run()
+  try {
+    await tasks.run()
+  } catch (_) {}
 
   for (const {version, error} of errors) {
     console.log()
