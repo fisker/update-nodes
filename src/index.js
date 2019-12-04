@@ -45,8 +45,17 @@ async function main(cli) {
   const tasks = new Listr(
     selected.map(version => ({
       title: `Install Node.js v${version}`,
-      task() {
-        return installNode(version).then(({stdout}) => {
+      task(context, task) {
+        const subprocess = installNode(version)
+
+        subprocess.stdout.on('data', chunk => {
+          chunk = String(chunk).trim()
+          if (chunk) {
+            task.output = chunk
+          }
+        })
+
+        return subprocess.then(({stdout}) => {
           let message
           // Download npm error
           if (/Download failed/.test(stdout)) {
