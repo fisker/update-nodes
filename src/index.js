@@ -35,7 +35,7 @@ async function main(cli) {
   let selected = []
 
   try {
-    selected = await prompt({
+    ;({selected} = await prompt({
       type: 'multiselect',
       name: 'selected',
       message: 'Select Node.js version(s) you want install:',
@@ -45,9 +45,10 @@ async function main(cli) {
         disabled: installed.includes(version) ? '(Installed)' : false,
       })),
       initial: notInstalled,
-    }).selected
+    }))
   } catch (error) {
-    console.log('Cancelled')
+    console.log('Cancelled.')
+    return
   }
 
   const errors = []
