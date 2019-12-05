@@ -110,7 +110,7 @@ async function main(cli) {
 
   for (const {version, message} of errors) {
     console.log()
-    signale.fatal(`Node.js ${version}\n${message}`)
+    signale.fatal(`Node.js v${version}\n${message}`)
   }
 }
 
