@@ -18,34 +18,44 @@ async function main(cli) {
   spinner.start()
   const recommended = await getRecommendedVersions()
   spinner.stop()
+
   const notInstalled = recommended.filter(
     version => !installed.includes(version)
   )
 
   if (notInstalled.length === 0) {
-    console.log(recommended.map(version => `v${version}`).join('\n'))
+    for (const version of recommended) {
+      signale.success(`Node.js v${version} already installed.`)
+    }
     console.log()
-    signale.success('All Recommended Node.js Versions are installed.')
+    signale.complete('All Recommended Node.js Versions are installed.')
     return
   }
 
-  const {selected} = await prompt({
-    type: 'multiselect',
-    name: 'selected',
-    message: 'Select Node.js version(s) you want install:',
-    choices: recommended.map(version => ({
-      name: version,
-      message: `v${version}`,
-      disabled: installed.includes(version) ? '(Installed)' : false,
-    })),
-    initial: notInstalled,
-  })
+  let selected = []
+
+  try {
+    selected = await prompt({
+      type: 'multiselect',
+      name: 'selected',
+      message: 'Select Node.js version(s) you want install:',
+      choices: recommended.map(version => ({
+        name: version,
+        message: `v${version}`,
+        disabled: installed.includes(version) ? '(Installed)' : false,
+      })),
+      initial: notInstalled,
+    }).selected
+  } catch (error) {
+    console.log('Cancelled')
+  }
 
   const errors = []
   const tasks = new Listr(
     selected.map(version => ({
       title: `Install Node.js v${version}`,
       task(context, task) {
+        task.title = `Installing Node.js v${version}`
         const subprocess = installNode(version)
 
         subprocess.stdout.on('data', chunk => {
@@ -59,7 +69,7 @@ async function main(cli) {
           let message
           // Download npm error
           if (/Download failed/.test(stdout)) {
-            message = `An error occurred while installing ${version}.`
+            message = `An error occurred while installing Node.js v${version}.`
           }
 
           // Download Node.js
@@ -73,9 +83,11 @@ async function main(cli) {
               error: new Error(`Installing Node.js v${version}\n${stdout}`),
             })
 
+            task.title = `Install Node.js v${version} failed`
             throw new Error(message)
           }
 
+          task.title = `Node.js v${version} Installed`
           return stdout
         })
       },
@@ -87,6 +99,8 @@ async function main(cli) {
 
   try {
     await tasks.run()
+    console.log()
+    signale.complete('All selected Node.js versions are installed.')
   } catch (_) {}
 
   for (const {version, error} of errors) {
