@@ -1,12 +1,14 @@
 import execa from 'execa'
 
+const nvm = (command, cliArguments) => execa('nvm', [command, ...cliArguments])
+
 async function detect() {
-  const {stdout} = await execa('nvm', ['list'])
+  const {stdout} = await nvm('version')
   return Boolean(stdout)
 }
 
 async function list() {
-  const {stdout} = await execa('nvm', ['list'])
+  const {stdout} = await nvm('list')
 
   return stdout.match(/\d+\.\d+\.\d+/g, stdout)
 }
@@ -14,7 +16,7 @@ async function list() {
 const NVM_WINDOWS_INSTALL_COMPLETE_MESSAGE =
   '\n\nInstallation complete. If you want to use this version, type\n\nnvm use '
 function install(version) {
-  const process = execa('nvm', ['install', version])
+  const process = nvm('install', [version])
   const promise = process.then(result => {
     const {stdout} = result
 
@@ -26,7 +28,7 @@ function install(version) {
       `An error occurred while installing Node.js v${version}.`
     )
     error.version = version
-    error.detail = stdout
+    error.detail = result
     throw error
   })
   Object.assign(promise, process)
