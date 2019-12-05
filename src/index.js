@@ -47,7 +47,7 @@ async function main(cli) {
   const errors = []
   const tasks = new Listr(
     recommended.map(version => ({
-      title: `Install Node.js v${version}`,
+      title: `Node.js v${version}`,
       task(context, task) {
         if (installed.includes(version)) {
           task.title = `Node.js v${version} already installed.`
@@ -71,24 +71,19 @@ async function main(cli) {
         })
 
         return subprocess.then(({stdout}) => {
-          let message
-          // Download npm error
-          if (/Download failed/.test(stdout)) {
-            message = `An error occurred while installing Node.js v${version}.`
-          }
+          if (
+            !stdout.includes(
+              '\n\nInstallation complete. If you want to use this version, type\n\nnvm use '
+            )
+          ) {
+            const message = `An error occurred while installing Node.js v${version}.`
 
-          // Download Node.js
-          if (/is not yet released or available/.test(stdout)) {
-            message = stdout
-          }
-
-          if (message) {
             errors.push({
               version,
-              error: new Error(`Installing Node.js v${version}\n${stdout}`),
+              message: stdout,
             })
 
-            task.title = `Install Node.js v${version} failed.`
+            task.title = `Node.js v${version} failed to install.`
             throw new Error(message)
           }
 
@@ -113,9 +108,9 @@ async function main(cli) {
     )
   } catch (_) {}
 
-  for (const {version, error} of errors) {
+  for (const {version, message} of errors) {
     console.log()
-    signale.fatal(error)
+    signale.fatal(`Node.js ${version}\n${message}`)
   }
 }
 
