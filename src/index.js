@@ -29,7 +29,7 @@ async function main(cli) {
   const installed = await manager.list()
 
   const spinner = ora({
-    text: 'Fetching recommended Node.js Versions',
+    text: 'Fetching recommended Node.js versions',
     discardStdin: false,
   })
   spinner.start()
@@ -101,9 +101,9 @@ async function main(cli) {
     console.log()
 
     signale.complete(
-      selected.length > 0
-        ? 'All selected Node.js versions are installed.'
-        : 'All recommended Node.js Versions are installed.'
+      `All ${
+        selected.length > 0 ? 'selected' : 'recommended'
+      } Node.js versions are installed.`
     )
   } catch (error) {
     printListrError(error)

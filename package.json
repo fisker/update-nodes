@@ -1,7 +1,7 @@
 {
   "name": "update-nodes",
   "version": "0.1.0",
-  "description": "Update Recommended Node.js Versions",
+  "description": "Update recommended Node.js versions",
   "repository": "fisker/update-nodes",
   "license": "MIT",
   "author": {

@@ -1,6 +1,6 @@
 # update-nodes
 
-> Update Recommended Node.js Versions
+> Update recommended Node.js versions
 
 Notice: **[nvm-windows](https://github.com/coreybutler/nvm-windows) is required**
 
