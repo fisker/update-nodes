@@ -5,11 +5,28 @@ import signale from 'signale'
 import Listr from 'listr'
 import cli from './cli'
 import update from './update'
-import getInstalledVersions from './installed'
-import installNode from './install-node'
+// eslint-disable-next-line unicorn/import-index
+import managers from './managers/index.js'
+import printListrError from './print-listr-error'
 
 async function main(cli) {
-  const installed = await getInstalledVersions()
+  let manager
+  for (const implementation of managers) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      if (await implementation.detect()) {
+        manager = implementation
+        break
+      }
+    } catch (_) {}
+  }
+
+  if (!manager) {
+    console.error('nvm-windows is not installed.')
+    return
+  }
+
+  const installed = await manager.list()
 
   const spinner = ora({
     text: 'Fetching recommended Node.js Versions',
@@ -44,7 +61,6 @@ async function main(cli) {
     }
   }
 
-  const errors = []
   const tasks = new Listr(
     recommended.map(version => ({
       title: `Node.js v${version}`,
@@ -61,35 +77,18 @@ async function main(cli) {
         }
 
         task.title = `Installing Node.js v${version}`
-        const subprocess = installNode(version)
 
-        subprocess.stdout.on('data', chunk => {
+        const process = manager.install(version)
+
+        process.stdout.on('data', chunk => {
           chunk = String(chunk).trim()
           if (chunk) {
             task.output = chunk
           }
         })
 
-        return subprocess.then(({stdout}) => {
-          if (
-            !stdout.includes(
-              '\n\nInstallation complete. If you want to use this version, type\n\nnvm use '
-            )
-          ) {
-            const message = `An error occurred while installing Node.js v${version}.`
-
-            errors.push({
-              version,
-              message: stdout,
-            })
-
-            task.title = `Node.js v${version} failed to install.`
-            throw new Error(message)
-          }
-
-          task.title = `Node.js v${version} successfully installed.`
-          return stdout
-        })
+        // eslint-disable-next-line consistent-return
+        return process
       },
     })),
     {
@@ -106,13 +105,8 @@ async function main(cli) {
         ? 'All selected Node.js versions are installed.'
         : 'All recommended Node.js Versions are installed.'
     )
-  } catch (_) {}
-
-  for (const {version, message} of errors) {
-    console.log()
-    const error = new Error()
-    error.stack = `Node.js v${version}\n${message}`
-    signale.fatal(error)
+  } catch (error) {
+    printListrError(error)
   }
 }
 
