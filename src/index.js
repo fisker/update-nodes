@@ -12,7 +12,7 @@ async function main(cli) {
   const installed = await getInstalledVersions()
 
   const spinner = ora({
-    text: 'Fetching Recommended Node.js Versions',
+    text: 'Fetching recommended Node.js Versions',
     discardStdin: false,
   })
   spinner.start()
@@ -28,7 +28,7 @@ async function main(cli) {
       signale.success(`Node.js v${version} already installed.`)
     }
     console.log()
-    signale.complete('All Recommended Node.js Versions are installed.')
+    signale.complete('All recommended Node.js Versions are installed.')
     return
   }
 
