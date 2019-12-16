@@ -1,6 +1,7 @@
 import execa from 'execa'
 
-const nvm = (command, cliArguments) => execa('nvm', [command, ...cliArguments])
+const nvm = (command, cliArguments = []) =>
+  execa('nvm', [command, ...cliArguments])
 
 async function detect() {
   const {stdout} = await nvm('version')
