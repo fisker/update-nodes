@@ -11,7 +11,7 @@ async function detect() {
 async function list() {
   const {stdout} = await nvm('list')
 
-  return stdout.match(/\d+\.\d+\.\d+/g, stdout)
+  return stdout.match(/\d+\.\d+\.\d+/g)
 }
 
 const NVM_WINDOWS_INSTALL_COMPLETE_MESSAGE =

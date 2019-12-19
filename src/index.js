@@ -87,6 +87,10 @@ async function main(cli) {
           }
         })
 
+        process.then(() => {
+          task.title = `Node.js v${version} successfully installed.`
+        })
+
         // eslint-disable-next-line consistent-return
         return process
       },
