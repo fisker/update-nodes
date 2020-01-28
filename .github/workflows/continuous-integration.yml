@@ -27,7 +27,7 @@ jobs:
 
     name: Test on node ${{ matrix.NODE }} and ${{ matrix.PLATFORM }}
     runs-on: ${{ matrix.PLATFORM }}
-    # needs: [build]
+    needs: [build]
     steps:
       - name: Checkout
         uses: actions/checkout@master
