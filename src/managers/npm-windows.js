@@ -18,7 +18,7 @@ const NVM_WINDOWS_INSTALL_COMPLETE_MESSAGE =
   '\n\nInstallation complete. If you want to use this version, type\n\nnvm use '
 function install(version) {
   const process = nvm('install', [version])
-  const promise = process.then(result => {
+  const promise = process.then((result) => {
     const {stdout} = result
 
     if (stdout.includes(NVM_WINDOWS_INSTALL_COMPLETE_MESSAGE)) {

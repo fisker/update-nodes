@@ -37,7 +37,7 @@ async function main(cli) {
   spinner.stop()
 
   const notInstalled = recommended.filter(
-    version => !installed.includes(version)
+    (version) => !installed.includes(version)
   )
 
   let selected = []
@@ -48,7 +48,7 @@ async function main(cli) {
         type: 'multiselect',
         name: 'selected',
         message: 'Select Node.js version(s) you want install:',
-        choices: recommended.map(version => ({
+        choices: recommended.map((version) => ({
           name: version,
           message: `v${version}`,
           disabled: installed.includes(version) ? '(Installed)' : false,
@@ -62,7 +62,7 @@ async function main(cli) {
   }
 
   const tasks = new Listr(
-    recommended.map(version => ({
+    recommended.map((version) => ({
       title: `Node.js v${version}`,
       task(context, task) {
         if (installed.includes(version)) {
@@ -80,7 +80,7 @@ async function main(cli) {
 
         const process = manager.install(version)
 
-        process.stdout.on('data', chunk => {
+        process.stdout.on('data', (chunk) => {
           chunk = String(chunk).trim()
           if (chunk) {
             task.output = chunk
