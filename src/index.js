@@ -33,11 +33,16 @@ async function main(cli) {
     discardStdin: false,
   })
   spinner.start()
-  const recommended = await getRecommendedVersions()
+  const recommended = (await getRecommendedVersions()).map((version) => ({
+    ...version,
+    name: `Node.js v${version.version}${
+      version.lts ? ` (${version.lts})` : ''
+    }`,
+  }))
   spinner.stop()
 
   const notInstalled = recommended.filter(
-    (version) => !installed.includes(version)
+    ({version}) => !installed.includes(version)
   )
 
   let selected = []
@@ -48,9 +53,9 @@ async function main(cli) {
         type: 'multiselect',
         name: 'selected',
         message: 'Select Node.js version(s) you want install:',
-        choices: recommended.map((version) => ({
+        choices: recommended.map(({name, version}) => ({
           name: version,
-          message: `v${version}`,
+          message: name,
           disabled: installed.includes(version) ? '(Installed)' : false,
         })),
         initial: notInstalled,
@@ -62,11 +67,11 @@ async function main(cli) {
   }
 
   const tasks = new Listr(
-    recommended.map((version) => ({
-      title: `Node.js v${version}`,
+    recommended.map(({name, version}) => ({
+      title: name,
       task(context, task) {
         if (installed.includes(version)) {
-          task.title = `Node.js v${version} already installed.`
+          task.title = `${name} already installed.`
           task.skip()
           return
         }
@@ -76,9 +81,9 @@ async function main(cli) {
           return
         }
 
-        task.title = `Installing Node.js v${version}`
+        task.title = `Installing ${name}`
 
-        const process = manager.install(version)
+        const process = manager.install({name, version})
 
         process.stdout.on('data', (chunk) => {
           chunk = String(chunk).trim()
@@ -88,7 +93,7 @@ async function main(cli) {
         })
 
         process.then(() => {
-          task.title = `Node.js v${version} successfully installed.`
+          task.title = `${name} successfully installed.`
         })
 
         // eslint-disable-next-line consistent-return

@@ -16,7 +16,7 @@ async function list() {
 
 const NVM_WINDOWS_INSTALL_COMPLETE_MESSAGE =
   '\n\nInstallation complete. If you want to use this version, type\n\nnvm use '
-function install(version) {
+function install({name, version}) {
   const process = nvm('install', [version])
   const promise = process.then((result) => {
     const {stdout} = result
@@ -25,9 +25,7 @@ function install(version) {
       return result
     }
 
-    const error = new Error(
-      `An error occurred while installing Node.js v${version}.`
-    )
+    const error = new Error(`An error occurred while installing ${name}.`)
     error.version = version
     error.detail = result
     throw error
