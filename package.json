@@ -1,6 +1,6 @@
 {
   "name": "update-nodes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Update recommended Node.js versions",
   "homepage": "https://github.com/fisker/update-nodes#readme",
   "bugs": {
