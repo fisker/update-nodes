@@ -36,14 +36,14 @@ async function main(cli) {
   const recommended = (await getRecommendedVersions()).map((version) => ({
     ...version,
     name: `Node.js v${version.version}${
-      version.lts ? ` (${version.lts})` : ''
+      version.lts ? ` "${version.lts}"` : ''
     }`,
   }))
   spinner.stop()
 
-  const notInstalled = recommended.filter(
-    ({version}) => !installed.includes(version)
-  )
+  const notInstalled = recommended
+    .filter(({version}) => !installed.includes(version))
+    .map(({version}) => version)
 
   let selected = []
 
@@ -56,6 +56,7 @@ async function main(cli) {
         choices: recommended.map(({name, version}) => ({
           name: version,
           message: name,
+          value: version,
           disabled: installed.includes(version) ? '(Installed)' : false,
         })),
         initial: notInstalled,
