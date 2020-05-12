@@ -36,7 +36,7 @@ async function main(cli) {
   const recommended = (await getRecommendedVersions()).map((version) => ({
     ...version,
     name: `Node.js v${version.version}${
-      version.lts ? ` "${version.lts}"` : ''
+      version.codeName ? ` "${version.codeName}"` : ''
     }`,
   }))
   spinner.stop()
