@@ -18,7 +18,7 @@ async function main(cli) {
         manager = implementation
         break
       }
-    } catch (_) {}
+    } catch {}
   }
 
   if (!manager) {
@@ -61,7 +61,7 @@ async function main(cli) {
         })),
         initial: notInstalled,
       }))
-    } catch (error) {
+    } catch {
       console.log('Cancelled.')
       return
     }
