@@ -22,7 +22,7 @@ async function main(cli) {
   }
 
   if (!manager) {
-    console.error('nvm-windows is not installed.')
+    console.error('No package manager avalible.')
     return
   }
 
