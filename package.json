@@ -65,7 +65,7 @@
     "enquirer": "2.3.6",
     "execa": "4.1.0",
     "listr": "0.14.3",
-    "meow": "7.1.1",
+    "meow": "8.0.0",
     "nodejs-recommended-versions": "3.0.0",
     "ora": "5.1.0",
     "signale": "1.4.0",
