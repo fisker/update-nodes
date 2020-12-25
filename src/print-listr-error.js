@@ -6,6 +6,7 @@ function print(error) {
     for (const error of errors) {
       const message =
         (error.detail && error.detail.stdout) || error.message || error.stack
+      // eslint-disable-next-line unicorn/error-message
       const printError = new Error()
       printError.stack = `Node.js v${error.version}\n${message}`
       console.log()

@@ -112,7 +112,7 @@ async function main(cli) {
 
     signale.complete(
       `All ${
-        selected.length > 0 ? 'selected' : 'recommended'
+        selected.length !== 0 ? 'selected' : 'recommended'
       } Node.js versions are installed.`
     )
   } catch (error) {
