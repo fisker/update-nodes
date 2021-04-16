@@ -1,13 +1,15 @@
+#!/usr/bin/env node
 import getRecommendedVersions from 'nodejs-recommended-versions'
-import {prompt} from 'enquirer'
+import enquirer from 'enquirer'
 import ora from 'ora'
 import signale from 'signale'
 import Listr from 'listr'
-import cli from './cli'
-import update from './update'
-// eslint-disable-next-line unicorn/import-index
+import cli from './cli.js'
+import update from './update.js'
 import managers from './managers/index.js'
-import printListrError from './print-listr-error'
+import printListrError from './print-listr-error.js'
+
+const {prompt} = enquirer
 
 async function main(cli) {
   let manager
