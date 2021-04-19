@@ -54,7 +54,7 @@ jobs:
       #     path: dist
 
       - name: Run Test
-        run: node ./src/index.js --version
+        run: node ./cli.js --version
 
   #     - name: Upload Coverage
   #       uses: coverallsapp/github-action@master
