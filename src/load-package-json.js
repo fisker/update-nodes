@@ -1,4 +1,4 @@
-import fs from 'fs/promises'
+import {promises as fs} from 'fs'
 
 async function loadPackageJson() {
   const packageJson = new URL('../package.json', import.meta.url)
