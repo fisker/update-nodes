@@ -16,9 +16,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "bin": "./src/index.js",
+  "bin": "./cli",
   "files": [
-    "src"
+    "cli.js",
+    "lib"
   ],
   "scripts": {
     "build": "run-p build:*",
@@ -57,6 +58,7 @@
   },
   "dependencies": {
     "enquirer": "2.3.6",
+    "esm-utils": "0.0.2",
     "execa": "5.0.0",
     "listr": "0.14.3",
     "meow": "9.0.0",
