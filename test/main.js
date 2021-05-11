@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import test from 'ava'
 import execa from 'execa'
 import createEsmUtils from 'esm-utils'
