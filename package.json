@@ -59,7 +59,7 @@
   "dependencies": {
     "enquirer": "2.3.6",
     "esm-utils": "2.0.0",
-    "execa": "5.1.1",
+    "execa": "6.0.0",
     "listr": "0.14.3",
     "meow": "10.1.1",
     "nodejs-recommended-versions": "4.0.1",
@@ -68,7 +68,7 @@
     "update-notifier": "5.1.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "14.1.0",
+    "@commitlint/cli": "15.0.0",
     "@fisker/commitlint-config": "2.0.1",
     "@fisker/eslint-config": "10.0.0",
     "@fisker/husky-config": "4.1.1",
@@ -79,7 +79,7 @@
     "del-cli": "4.0.1",
     "eslint": "8.2.0",
     "husky": "7.0.4",
-    "lint-staged": "11.2.6",
+    "lint-staged": "12.0.2",
     "markdownlint-cli": "0.29.0",
     "npm-run-all": "4.1.5",
     "nyc": "15.1.0",
