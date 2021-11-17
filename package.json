@@ -59,7 +59,7 @@
   "dependencies": {
     "enquirer": "2.3.6",
     "esm-utils": "2.0.0",
-    "execa": "5.1.1",
+    "execa": "6.0.0",
     "listr": "0.14.3",
     "meow": "10.1.1",
     "nodejs-recommended-versions": "4.0.1",
