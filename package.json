@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "enquirer": "2.3.6",
-    "esm-utils": "2.0.1",
+    "esm-utils": "3.0.0",
     "execa": "6.0.0",
     "listr": "0.14.3",
     "meow": "10.1.2",
@@ -70,7 +70,7 @@
   "devDependencies": {
     "@commitlint/cli": "16.1.0",
     "@fisker/commitlint-config": "2.0.2",
-    "@fisker/eslint-config": "10.0.12",
+    "@fisker/eslint-config": "10.0.13",
     "@fisker/husky-config": "4.1.2",
     "@fisker/lint-staged-config": "3.1.4",
     "@fisker/prettier-config": "5.0.5",
