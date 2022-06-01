@@ -68,7 +68,7 @@
     "update-notifier": "5.1.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.0.1",
+    "@commitlint/cli": "17.0.2",
     "@fisker/commitlint-config": "2.0.4",
     "@fisker/eslint-config": "10.1.4",
     "@fisker/husky-config": "4.1.2",
