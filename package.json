@@ -22,7 +22,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "run-p build:*",
+    "build": "run-p \"build:*\"",
     "build:js": "echo no need",
     "clean": "run-p \"clean:*\"",
     "clean:dist": "del-cli dist",
