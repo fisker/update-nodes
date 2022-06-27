@@ -18,72 +18,53 @@ jobs:
           - "macos-latest"
           - "windows-latest"
         node_version:
+          - "18"
           - "16"
           - "14"
-          - "12"
         # exclude:
         #   - os: "macos-latest"
         #     node_version: "12"
-
     name: Node.js ${{ matrix.node_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    env:
+      YARN_ENABLE_IMMUTABLE_INSTALLS: false
     # needs: [build]
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
-
-      # - name: Install nvm-windows
-      #   run: |
-      #     npx node-wget https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-setup.zip
-      #     npx extract-zip nvm-setup.zip
-      #     nvm-setup.exe /silent
-      #     nvm version
 
       - name: Install Dependencies
         run: yarn
 
       # - name: Download Artifact
-      #   uses: actions/download-artifact@master
+      #   uses: actions/download-artifact@v3
       #   with:
       #     name: dist
       #     path: dist
 
       - name: Run Test
-        run: node ./cli.js --version
+        run: yarn test-coverage
 
-  #     - name: Upload Coverage
-  #       uses: coverallsapp/github-action@master
-  #       if: success()
-  #       continue-on-error: true
-  #       with:
-  #         github-token: ${{ secrets.github_token }}
-  #         parallel: true
-
-  # coverage:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Sending webhook to Coveralls
-  #       uses: coverallsapp/github-action@master
-  #       continue-on-error: true
-  #       with:
-  #         github-token: ${{ secrets.github_token }}
-  #         parallel-finished: true
+      - uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    env:
+      YARN_ENABLE_IMMUTABLE_INSTALLS: false
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v3
 
       - name: Install Dependencies
         run: yarn
@@ -94,12 +75,14 @@ jobs:
   # build:
   #   name: Build
   #   runs-on: ubuntu-latest
+  #   env:
+  #     YARN_ENABLE_IMMUTABLE_INSTALLS: false
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@master
+  #       uses: actions/checkout@v3
 
   #     - name: Setup Node.js
-  #       uses: actions/setup-node@master
+  #       uses: actions/setup-node@v23
 
   #     - name: Install Dependencies
   #       run: yarn
@@ -108,7 +91,7 @@ jobs:
   #       run: yarn build
 
   #     - name: Upload Artifact
-  #       uses: actions/upload-artifact@master
+  #       uses: actions/upload-artifact@v3
   #       with:
   #         name: dist
   #         path: dist
