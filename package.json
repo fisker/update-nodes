@@ -58,7 +58,7 @@
     "execa": "6.0.0",
     "listr": "0.14.3",
     "meow": "10.1.2",
-    "nodejs-recommended-versions": "4.0.1",
+    "nodejs-recommended-versions": "4.1.0",
     "ora": "6.0.1",
     "signale": "1.4.0",
     "update-notifier": "5.1.0"
