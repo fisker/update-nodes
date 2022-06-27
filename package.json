@@ -41,7 +41,7 @@
     "prepare": "husky install",
     "release": "run-s lint build format test dist",
     "test": "ava",
-    "test-coverage": "nyc yarn test"
+    "test-coverage": "c8 yarn test"
   },
   "ava": {
     "verbose": true
@@ -80,9 +80,9 @@
     "prettier": "2.7.1",
     "sort-package-json": "1.57.0"
   },
+  "packageManager": "yarn@3.2.1",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  },
-  "packageManager": "yarn@3.2.1"
+  }
 }
