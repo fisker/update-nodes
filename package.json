@@ -61,7 +61,7 @@
     "nodejs-recommended-versions": "4.1.0",
     "ora": "8.0.1",
     "signale": "1.4.0",
-    "update-notifier": "7.0.0"
+    "update-notifier": "7.3.1"
   },
   "devDependencies": {
     "@fisker/eslint-config": "13.1.1",
