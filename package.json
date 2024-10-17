@@ -55,7 +55,7 @@
   "dependencies": {
     "enquirer": "2.4.1",
     "esm-utils": "4.3.0",
-    "execa": "9.3.0",
+    "execa": "9.4.1",
     "listr2": "8.2.3",
     "meow": "13.2.0",
     "nodejs-recommended-versions": "4.1.0",
