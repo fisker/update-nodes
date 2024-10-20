@@ -78,7 +78,7 @@
     "markdownlint-cli2": "0.13.0",
     "npm-run-all2": "6.2.0",
     "prettier": "3.3.2",
-    "sort-package-json": "2.10.0"
+    "sort-package-json": "2.10.1"
   },
   "packageManager": "yarn@4.2.2",
   "publishConfig": {
